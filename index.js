@@ -29,7 +29,7 @@ app.get('/db', (req, res) => {
         // db.json dosyasını güncelle
         fs.writeFileSync(path.join(__dirname, 'db.json'), JSON.stringify(db, null, 2));
         
-        res.send('Mesaj başarıyla eklendi');
+        res.sendFile(path.join(__dirname, 'db.json'));
     } catch (error) {
         res.status(500).send(`Error: ${error.message}`);
     }
