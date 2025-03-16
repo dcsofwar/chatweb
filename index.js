@@ -1,3 +1,4 @@
+const db = require('./db.json');
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -13,6 +14,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Ana sayfa
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/db', (req, res) => {
+    let msg = req.query.content;
+    
+    try{
+        db.push(msg);
+        res.sendFile(path.join(__dirname, 'db.json'));
+    }catch(error){
+        res.send(`Error: ${error}`)
+    }
 });
 
 // Socket.io bağlantısı
