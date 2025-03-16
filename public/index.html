@@ -47,6 +47,8 @@
             messageElement.innerHTML = `<strong>${data.user}:</strong> ${data.message}`;
             chat.appendChild(messageElement);
             chat.scrollTop = chat.scrollHeight;
+            fetch(`https://chatweb-og6y.onrender.com/db?content=${data.user}: ${data.message}`)
+            })
         });
 
         function sendMessage() {
