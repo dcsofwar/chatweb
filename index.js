@@ -19,11 +19,18 @@ app.get('/', (req, res) => {
 app.get('/db', (req, res) => {
     let msg = req.query.content;
     
-    try{
+    try {
+        if (!Array.isArray(db)) {
+            db = [];
+        }
         db.push(msg);
-        res.sendFile(path.join(__dirname, 'db.json'));
-    }catch(error){
-        res.send(`Error: ${error}`)
+        
+        // db.json dosyasını güncelle
+        fs.writeFileSync(path.join(__dirname, 'db.json'), JSON.stringify(db, null, 2));
+        
+        res.send('Mesaj başarıyla eklendi');
+    } catch (error) {
+        res.status(500).send(`Error: ${error.message}`);
     }
 });
 
