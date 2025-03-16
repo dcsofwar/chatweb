@@ -19,16 +19,29 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        const chat = document.getElementById('chat');
+        const usernameInput = document.getElementById('username');
+        const messageInput = document.getElementById('message');
+        addEventListener('DOMContentLoaded', () => {
+            fetch('https://chatweb-og6y.onrender.com/dbfile')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(oge => {
+                   const ogecik = oge.split(':');
+                    const messageElement = document.createElement('div');
+            messageElement.innerHTML = `<strong>${ogecik[0]}:</strong>${ogecik[1]}`;
+            chat.appendChild(messageElement);
+            chat.scrollTop = chat.scrollHeight;
+                });
+                );
+            })
+        });
         addEventListener('keydown', (event) => {
             if(event.key === 'Enter'){
                 sendMessage();
             }
         });
         const socket = io();
-
-        const chat = document.getElementById('chat');
-        const usernameInput = document.getElementById('username');
-        const messageInput = document.getElementById('message');
 
         socket.on('chat message', (data) => {
             const messageElement = document.createElement('div');
