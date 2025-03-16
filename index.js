@@ -17,6 +17,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.get('/dbfile', (req, res) => {
+    res.sendFile(path.join(__dirname, 'db.json'));
+});
+
 app.get('/db', (req, res) => {
     let msg = req.query.content;
     
