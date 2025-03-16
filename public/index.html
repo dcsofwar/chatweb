@@ -22,35 +22,40 @@
         const chat = document.getElementById('chat');
         const usernameInput = document.getElementById('username');
         const messageInput = document.getElementById('message');
-        addEventListener('DOMContentLoaded', () => {
+        const socket = io();
+
+        // Sayfa yüklendiğinde eski mesajları getir
+        document.addEventListener('DOMContentLoaded', () => {
             fetch('https://chatweb-og6y.onrender.com/dbfile')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(oge => {
-                   const ogecik = oge.split(':');
-                    const messageElement = document.createElement('div');
-            messageElement.innerHTML = `<strong>${ogecik[0]}:</strong>${ogecik[1]}`;
-            chat.appendChild(messageElement);
-            chat.scrollTop = chat.scrollHeight;
-                });
-            })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(oge => {
+                        const ogecik = oge.split(':');
+                        const messageElement = document.createElement('div');
+                        messageElement.innerHTML = `<strong>${ogecik[0]}:</strong> ${ogecik[1]}`;
+                        chat.appendChild(messageElement);
+                    });
+                    chat.scrollTop = chat.scrollHeight; // Son mesaja kaydır
+                })
+                .catch(error => console.error('Mesajlar yüklenirken hata oluştu:', error));
         });
-        addEventListener('keydown', (event) => {
-            if(event.key === 'Enter'){
+
+        // Enter tuşu ile mesaj gönderme
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
                 sendMessage();
             }
         });
-        const socket = io();
 
+        // Yeni mesaj geldiğinde
         socket.on('chat message', (data) => {
             const messageElement = document.createElement('div');
             messageElement.innerHTML = `<strong>${data.user}:</strong> ${data.message}`;
             chat.appendChild(messageElement);
-            chat.scrollTop = chat.scrollHeight;
-            fetch(`https://chatweb-og6y.onrender.com/db?content=${data.user}: ${data.message}`)
-            })
+            chat.scrollTop = chat.scrollHeight; // Son mesaja kaydır
         });
 
+        // Mesaj gönderme fonksiyonu
         function sendMessage() {
             const username = usernameInput.value.trim();
             const message = messageInput.value.trim();
@@ -58,10 +63,14 @@
             if (username && message) {
                 if (!socket.username) {
                     socket.username = username;
-                    socket.emit('join', username);
+                    socket.emit('join', username); // Sunucuya katılma bildirimi gönder
                 }
-                socket.emit('chat message', message);
-                messageInput.value = '';
+                socket.emit('chat message', message); // Mesajı sunucuya gönder
+                messageInput.value = ''; // Mesaj kutusunu temizle
+
+                // Mesajı veritabanına kaydet
+                fetch(`https://chatweb-og6y.onrender.com/db?content=${username}: ${message}`)
+                    .catch(error => console.error('Mesaj kaydedilirken hata oluştu:', error));
             }
         }
     </script>
