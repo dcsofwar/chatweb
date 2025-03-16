@@ -19,6 +19,11 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+        addEventListener('keydown', (event) => {
+            if(event.key === 'Enter'){
+                sendMessage();
+            }
+        });
         const socket = io();
 
         const chat = document.getElementById('chat');
