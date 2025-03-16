@@ -4,6 +4,7 @@ const http = require('http');
 const fs = require('fs');
 const socketIo = require('socket.io');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
@@ -11,6 +12,7 @@ const io = socketIo(server);
 
 // Statik dosyaları sunmak için
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors()); // CORS'u tüm istekler için etkinleştir
 
 // Ana sayfa
 app.get('/', (req, res) => {
