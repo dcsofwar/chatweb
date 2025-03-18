@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <title>Node.js Chat Uygulaması</title>
+    <style>
+        #message{
+            outline: none;
+        }
+    </style>
     <style type="text/tailwindcss">
         @font-face {
   font-family: ggsans;
@@ -25,7 +30,7 @@
     <div class="border-1 rounded-2xl bg-gray-300 opacity-75 w-rdstel lg:w-rds h-96 border-white flex flex-col">
     <div class="w-full h-full p-5" id="chat"></div>
     <div class="flex justify-between border-1 border-white rounded-2xl">
-    <input type="text" id="message" placeholder="Mesajınız" class="rounded-2xl p-3 w-full">
+    <input type="text" id="message" placeholder="Mesajınız" class="rounded-2xl p-3 w-full border-1 border-gray-300">
     <button onclick="sendMessage()" class=""><img class="w-8 h-8" src="plane.svg" /></button>
     </div>
     </div>
