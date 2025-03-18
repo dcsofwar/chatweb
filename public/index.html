@@ -1,21 +1,36 @@
+
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <title>Node.js Chat Uygulaması</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        #chat { width: 300px; height: 400px; border: 1px solid #ccc; overflow-y: scroll; padding: 10px; }
-        #message { width: 200px; }
+    <style type="text/tailwindcss">
+        @font-face {
+  font-family: ggsans;
+  src: url(ggsanw.ttf);
+}
+
+        @theme{
+            --font-gg: "ggsans";
+            --spacing-rds: calc(100% - 20rem);
+            --spacing-rdstel: calc(100% - 3rem);
+        }
     </style>
 </head>
-<body>
-    <h1>Node.js Chat Uygulaması</h1>
+<body class="font-gg">
+    <section class="h-screen w-full bg-gradient-to-b from-purple-800 to-black flex flex-col items-center justify-center">
+    <h1 class="text-3xl pb-6 text-white">Node.js Chat Uygulaması</h1>
+    <div class="border-1 rounded-2xl bg-gray-300 opacity-75 w-rdstel lg:w-rds h-96 border-white flex flex-col-reverse">
     <div id="chat"></div>
-    <input type="text" id="username" placeholder="Kullanıcı adınız">
-    <input type="text" id="message" placeholder="Mesajınız">
-    <button onclick="sendMessage()">Gönder</button>
+    <div class="flex justify-between border-1 border-white rounded-2xl">
+    <input type="text" id="message" placeholder="Mesajınız" class="rounded-2xl p-3 w-full">
+    <button onclick="sendMessage()" class=""><img class="w-8 h-8" src="plane.svg" /></button>
+    </div>
+    </div>
+    </section>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
